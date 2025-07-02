@@ -1,0 +1,1 @@
+**We can't output pure analog signals because this is a digital circuit, so we simulate analog output using pulse width modulation (PWM).**
