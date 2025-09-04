@@ -1,17 +1,19 @@
-from machine import Pin
+from machine import Pin, Timer
 import time
-from machine import Timer
 
-#this is how we run our code using timer
-#like there is how we run code like parallel we can make multiple timers
-led = Pin("LED", Pin.OUT)   # works on Pico / Pico 
+led = Pin("LED", Pin.OUT)   # For Pico W (use Pin(2) for ESP32/8266)
 
-def togle_led(Source):
+def toggle_led(timer):
     led.toggle()
 
-on_board_timer = Timer(period=60,mode=Timer.PERIODIC,callback=togle_led)    
+# Create a timer with 60ms period
+on_board_timer = Timer(period=60, mode=Timer.PERIODIC, callback=toggle_led)
 
-
-while True:
-    pass
-
+try:
+    while True:
+        time.sleep(1)   # keep main loop alive
+except KeyboardInterrupt:
+    print("Keyboard Interrupt detected! Stopping timer...")
+    on_board_timer.deinit()   # turn off timer safely
+    led.value(0)              # turn LED off
+    print("Timer stopped, LED off.")
