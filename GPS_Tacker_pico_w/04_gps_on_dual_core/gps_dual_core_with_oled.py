@@ -109,6 +109,7 @@ def parseGPS():
             
             # Parse Satellites
             sats = NMEAmain['GPGGA'].split(',')[7]
+            sats = int(sats)
             GPSdata['sats'] = sats if sats else '0'
         else:
             GPSdata['fix'] = False
